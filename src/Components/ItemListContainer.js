@@ -29,6 +29,7 @@ export  const  getFetch = new Promise((aceptado, rechazado )=>{  //instaciamos u
   })
 
 
+
 function ItemListContainer() {
 
     const [ producto , setProducto] = useState([])
@@ -37,7 +38,7 @@ function ItemListContainer() {
     const {idcategoria} = useParams()  //capturo como le asigne el nombre al parametro , para asi capturar
     // la categoria
 
-
+  
 
 
   useEffect(() => {
@@ -90,7 +91,7 @@ function ItemListContainer() {
        
      </div>
     <div  className="card-footer">
-      <Link to={`/detalle/${pro.id}`}>
+      <Link to={`/detalleproducto/${pro.id}`}>
       <button className="btn btn-outline-primary btn-block">
         DETALLE PRODUCTO
       </button>
