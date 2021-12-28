@@ -6,7 +6,10 @@
   width: 400px;
   height: 400px;
 }
-
+.ItemDetail {
+  position: relative;
+  left: 10em;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

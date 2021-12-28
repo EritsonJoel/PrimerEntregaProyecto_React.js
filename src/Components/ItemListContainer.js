@@ -2,9 +2,11 @@ import React from 'react'
 import { useState,  useEffect } from 'react';
 import { Link ,useParams} from 'react-router-dom';
 
+import { collection, getDocs,query} from 'firebase/firestore';
 
 
 
+import db from '../Firebase/fireBase'
 
  //PROMESAS Y ASINCRONIA
  const productos = [
@@ -33,7 +35,7 @@ export  const  getFetch = new Promise((aceptado, rechazado )=>{  //instaciamos u
 function ItemListContainer() {
 
     const [ producto , setProducto] = useState([])
-    const [ cargando, paraCargando] = useState(true) 
+    const [ cargando, setCargando] = useState(true) 
 
     const {idcategoria} = useParams()  //capturo como le asigne el nombre al parametro , para asi capturar
     // la categoria
@@ -45,37 +47,59 @@ function ItemListContainer() {
 
 
     
-    if (idcategoria) {
+    //if (idcategoria) {
 
-        getFetch
-        .then(data =>{
-          //lamo a la appi
-          setProducto(data.filter(pro => pro.categoria === idcategoria))
+       // getFetch
+        //.then(data =>{
+          ///lamo a la appi
+          //setProducto(data.filter(pro => pro.categoria === idcategoria))
       
-        })
-        .catch(e => console.log(console.error))
-        .finally(() => paraCargando(false))
+        //})
+        //.catch(e => console.log(console.error))
+        //.finally(() => paraCargando(false))
          
-    } else {
-        getFetch
-  .then(data =>{
-    //lamo a la appi
-    setProducto(data)
+    //} else {
+     //   getFetch
+     //.then(data =>{
+   // lamo a la appi
+   //setProducto(data)
 
-  })
-  .catch(e => console.log(console.error))
-  .finally(() => paraCargando(false))
+ // })
+  //.catch(e => console.log(console.error))
+  //.finally(() => paraCargando(false))
  
-    }
+    //}
     
+   // return () => {
+    //  console.log('clear');
+    //}
 
+   
+     //const dbQuery = getFirestore();
 
-    return () => {
-      console.log('clear');
-    }
-  },[idcategoria])
+     //dbQuery.collection('productos').where('categoria', '==', idcategoria).get() // traer todo
+     //.then(data => setProducto(   data.docs.map(pro => ( { id: pro.id, ...pro.data() } ))   ))
+     //.catch(err=> console.log(err))
+              
+  const obtener = async () => {
+    const  q = query(
+      collection(db, 'productos' )
+      );
+
+      const prodObtenidos = await getDocs(q)
+      prodObtenidos.forEach(doc =>{
+        //console.log(doc.data())
+        setProducto(producto => [...producto, doc.data()]);
+      })
+       
+  }
+ obtener()
+  .finally(() => setCargando(false))
+      
+  },[])
+
  
-
+  //
     return (
         <div className="App">
             {   cargando ?  <h1>CARGANDO...</h1> :  producto.map( pro => <div key={pro.id} className="card w-50 mt-5">
@@ -86,9 +110,9 @@ function ItemListContainer() {
        {pro.categoria}
      </div>
      <div className="card-body">
-       < img src={pro.foto} alt="fto" className='imagenes'/>
+   
        {pro.precio}
-       
+       < img src={pro.imageID} alt="fto" className='imagenes'/>
      </div>
     <div  className="card-footer">
       <Link to={`/detalleproducto/${pro.id}`}>

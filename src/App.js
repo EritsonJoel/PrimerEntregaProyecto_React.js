@@ -10,6 +10,9 @@ import ItemDetails from './Components/ItemDetails';
 
 function App() {
   return (
+
+   
+      
     <BrowserRouter>
     <div className="App">
      <NavBar/>
@@ -21,9 +24,10 @@ function App() {
        <Route  exact path='/cart' element={ <Cart/>}/>
       
      </Routes>
-   
+      
     </div>
     </BrowserRouter>
+    
   );
 }
 
