@@ -2,7 +2,9 @@ import React from 'react'
 import { useState,  useEffect } from 'react';
 import { Link ,useParams} from 'react-router-dom';
 
-import { collection, getDocs,query} from 'firebase/firestore';
+import { collection, getDocs,query,} from 'firebase/firestore';
+import { where } from 'firebase/firestore';
+
 
 
 
@@ -80,21 +82,47 @@ function ItemListContainer() {
      //dbQuery.collection('productos').where('categoria', '==', idcategoria).get() // traer todo
      //.then(data => setProducto(   data.docs.map(pro => ( { id: pro.id, ...pro.data() } ))   ))
      //.catch(err=> console.log(err))
-              
-  const obtener = async () => {
-    const  q = query(
-      collection(db, 'productos' )
-      );
 
-      const prodObtenidos = await getDocs(q)
-      prodObtenidos.forEach(doc =>{
-        //console.log(doc.data())
-        setProducto(producto => [...producto, doc.data()]);
-      })
-       
-  }
- obtener()
-  .finally(() => setCargando(false))
+
+     if(idcategoria){
+
+      const obtener = async () => {
+        const  q = query( collection(db, 'productos' ).where('categoria', '===', idcategoria));
+   
+     
+    
+          const prodObtenidos = await getDocs(q)
+          prodObtenidos.forEach(doc =>{
+          console.log(doc.data())
+            setProducto(producto => [...producto, doc.data()]);
+          })
+           
+      }
+     obtener()
+      .finally(() => setCargando(false))
+
+
+     }else{
+
+      const obtener = async () => {
+        const  q = query(
+          collection(db, 'productos' )
+          );
+    
+          const prodObtenidos = await getDocs(q)
+          prodObtenidos.forEach(doc =>{
+            //console.log(doc.data())
+            setProducto(producto => [...producto, doc.data()]);
+          })
+           
+      }
+     obtener()
+      .finally(() => setCargando(false))
+
+
+     }
+              
+  
       
   },[])
 
