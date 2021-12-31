@@ -1,34 +1,40 @@
-
-import './App.css';
-import  'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import NavBar from './Navbar/NavBar';
-import ItemListContainer from './Components/ItemListContainer';
-
-import Cart from './Components/Cart'
-import ItemDetails from './Components/ItemDetails';
+import React from 'react'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import Navbar from './components/navbar/Navbar'
+import Home from './components/home/Home'
+import Cart from './components/cart/Cart'
+import ItemListContainer from './containers/itemListContainer/ItemListContainer'
+import ItemDetailContainer from './containers/itemDetailContainer/ItemDetailContainer'
+import Footer from './components/footer/Footer'
+import { CartProvider } from './context/CartProvider'
+import MainImgCategories from './containers/itemListContainer/MainImgCategories'
 
 function App() {
-  return (
+    return (
+        <CartProvider>
+            <BrowserRouter>
+                <Navbar />
+                <Switch>
+                    <Redirect from="/react-ecommerce" to="/" />
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/categories/:categoryId">
+                        <ItemListContainer />
+                        <MainImgCategories/>
+                    </Route>
+                    <Route exact path="/cart">
+                        <Cart />
+                    </Route>
+                    <Route exact path="/item/:productId">
+                        <ItemDetailContainer />
+                    </Route>
+                </Switch>
 
-   
-      
-    <BrowserRouter>
-    <div className="App">
-     <NavBar/>
-
-     <Routes>
-       <Route  exact path='/'  element={<ItemListContainer/>}/>
-       <Route  exact path='/categoria/:idcategoria'  element={<ItemListContainer/>}/>
-       <Route  exact path='/detalleproducto/:idproducto'  element={<ItemDetails/>}/>
-       <Route  exact path='/cart' element={ <Cart/>}/>
-      
-     </Routes>
-      
-    </div>
-    </BrowserRouter>
-    
-  );
+                <Footer />
+            </BrowserRouter>
+        </CartProvider>
+    )
 }
 
-export default App;
+export default App

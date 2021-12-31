@@ -1,27 +1,17 @@
+.App {
+  text-align: center;
+  background: gray;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
-.imagenes {
-  width: 400px;
-  height: 400px;
-}
-.ItemDetail {
-  position: relative;
-  left: 10em;
-}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-Nav {
-  display: flex;
-  justify-content: space-between;
-}
-Link {
-  width: 60%;
-  height: 400px;
 }
 
 .App-header {
@@ -29,7 +19,6 @@ Link {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
